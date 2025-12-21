@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface DailySymptomLogService {
 
-    DailySymptomLog recordSymptomLog(DailySymptomLog log);
-
-    List<DailySymptomLog> getLogsByPatient(Long patientId);
-
-    Optional<DailySymptomLog> getLogById(Long id);
+    DailySymptomLog create(DailySymptomLog log);
 
     DailySymptomLog updateSymptomLog(Long id, DailySymptomLog log);
+
+    void deleteSymptomLog(Long id);
+
+    List<DailySymptomLog> getLogsByPatient(Long patientId);
 }

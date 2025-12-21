@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -22,6 +23,7 @@ public class DailySymptomLog {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
     @NotNull
+    @JsonIgnoreProperties({"symptomLogs", "alerts"})
     private PatientProfile patient;
 
     @NotNull
@@ -40,11 +42,9 @@ public class DailySymptomLog {
     @Lob
     private String additionalNotes;
 
-    private LocalDateTime submittedAt;
+    private LocalDateTime submittedAt = LocalDateTime.now();
 
-    public DailySymptomLog() {
-        this.submittedAt = LocalDateTime.now();
-    }
+    public DailySymptomLog() {}
 
     public DailySymptomLog(PatientProfile patient, LocalDate logDate,
                            Integer painLevel, Integer mobilityLevel,
@@ -54,10 +54,9 @@ public class DailySymptomLog {
         this.painLevel = painLevel;
         this.mobilityLevel = mobilityLevel;
         this.fatigueLevel = fatigueLevel;
-        this.submittedAt = LocalDateTime.now();
     }
 
-    // getters & setters
+    // Getters & Setters
     public Long getId() { return id; }
     public PatientProfile getPatient() { return patient; }
     public void setPatient(PatientProfile patient) { this.patient = patient; }
@@ -69,6 +68,4 @@ public class DailySymptomLog {
     public void setMobilityLevel(Integer mobilityLevel) { this.mobilityLevel = mobilityLevel; }
     public Integer getFatigueLevel() { return fatigueLevel; }
     public void setFatigueLevel(Integer fatigueLevel) { this.fatigueLevel = fatigueLevel; }
-    public String getAdditionalNotes() { return additionalNotes; }
-    public void setAdditionalNotes(String additionalNotes) { this.additionalNotes = additionalNotes; }
 }

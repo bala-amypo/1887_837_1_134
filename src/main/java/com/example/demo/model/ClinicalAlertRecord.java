@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -16,6 +17,7 @@ public class ClinicalAlertRecord {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
     @NotNull
+    @JsonIgnoreProperties({"symptomLogs", "alerts"})
     private PatientProfile patient;
 
     @NotNull
@@ -32,11 +34,9 @@ public class ClinicalAlertRecord {
     private String message;
 
     private Boolean resolved = false;
-    private LocalDate alertDate;
+    private LocalDate alertDate = LocalDate.now();
 
-    public ClinicalAlertRecord() {
-        this.alertDate = LocalDate.now();
-    }
+    public ClinicalAlertRecord() {}
 
     public ClinicalAlertRecord(PatientProfile patient, Long logId,
                                String alertType, String severity,
@@ -46,11 +46,9 @@ public class ClinicalAlertRecord {
         this.alertType = alertType;
         this.severity = severity;
         this.message = message;
-        this.resolved = false;
-        this.alertDate = LocalDate.now();
     }
 
-    // getters & setters
+    // Getters & Setters
     public Long getId() { return id; }
     public PatientProfile getPatient() { return patient; }
     public void setPatient(PatientProfile patient) { this.patient = patient; }

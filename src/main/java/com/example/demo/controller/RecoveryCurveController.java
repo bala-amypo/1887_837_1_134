@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.RecoveryCurveProfile;
 import com.example.demo.service.RecoveryCurveService;
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +17,13 @@ public class RecoveryCurveController {
     }
 
     @PostMapping
-    public RecoveryCurveProfile create(@Valid @RequestBody RecoveryCurveProfile profile) {
-        return service.createCurveEntry(profile);
+    public RecoveryCurveProfile create(@RequestBody RecoveryCurveProfile curve) {
+        return service.createCurveEntry(curve);
+    }
+
+    @GetMapping
+    public List<RecoveryCurveProfile> getAll() {
+        return service.getAllCurves();
     }
 
     @GetMapping("/surgery/{surgeryType}")
@@ -27,8 +31,12 @@ public class RecoveryCurveController {
         return service.getCurveForSurgery(surgeryType);
     }
 
-    @GetMapping
-    public List<RecoveryCurveProfile> getAll() {
-        return service.getAllCurves();
+    @GetMapping("/{id}")
+    public RecoveryCurveProfile getById(@PathVariable Long id) {
+        return service.getAllCurves()
+                .stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElseThrow();
     }
 }

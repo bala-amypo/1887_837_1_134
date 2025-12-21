@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.PatientProfile;
 import com.example.demo.service.PatientProfileService;
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,14 +17,13 @@ public class PatientProfileController {
     }
 
     @PostMapping
-    public PatientProfile create(@Valid @RequestBody PatientProfile patient) {
+    public PatientProfile create(@RequestBody PatientProfile patient) {
         return service.createPatient(patient);
     }
 
     @GetMapping("/{id}")
     public PatientProfile getById(@PathVariable Long id) {
-        return service.getPatientById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
+        return service.getPatientById(id).orElseThrow();
     }
 
     @GetMapping
@@ -34,15 +32,13 @@ public class PatientProfileController {
     }
 
     @PutMapping("/{id}/status")
-    public PatientProfile updateStatus(
-            @PathVariable Long id,
-            @RequestParam boolean active) {
+    public PatientProfile updateStatus(@PathVariable Long id,
+                                       @RequestParam boolean active) {
         return service.updatePatientStatus(id, active);
     }
 
     @GetMapping("/lookup/{patientId}")
     public PatientProfile getByPatientId(@PathVariable String patientId) {
-        return service.findByPatientId(patientId)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
+        return service.findByPatientId(patientId).orElseThrow();
     }
 }

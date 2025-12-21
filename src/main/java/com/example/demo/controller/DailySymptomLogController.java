@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.DailySymptomLog;
 import com.example.demo.service.DailySymptomLogService;
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,25 +17,23 @@ public class DailySymptomLogController {
     }
 
     @PostMapping
-    public DailySymptomLog create(@Valid @RequestBody DailySymptomLog log) {
+    public DailySymptomLog create(@RequestBody DailySymptomLog log) {
         return service.recordSymptomLog(log);
     }
 
     @PutMapping("/{id}")
-    public DailySymptomLog update(
-            @PathVariable Long id,
-            @Valid @RequestBody DailySymptomLog log) {
+    public DailySymptomLog update(@PathVariable Long id,
+                                  @RequestBody DailySymptomLog log) {
         return service.updateSymptomLog(id, log);
+    }
+
+    @GetMapping("/{id}")
+    public DailySymptomLog getById(@PathVariable Long id) {
+        return service.getLogById(id).orElseThrow();
     }
 
     @GetMapping("/patient/{patientId}")
     public List<DailySymptomLog> getByPatient(@PathVariable Long patientId) {
         return service.getLogsByPatient(patientId);
-    }
-
-    @GetMapping("/{id}")
-    public DailySymptomLog getById(@PathVariable Long id) {
-        return service.getLogById(id)
-                .orElseThrow(() -> new RuntimeException("Log not found"));
     }
 }

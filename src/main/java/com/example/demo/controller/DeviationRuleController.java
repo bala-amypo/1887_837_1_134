@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.DeviationRule;
 import com.example.demo.service.DeviationRuleService;
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,24 +17,23 @@ public class DeviationRuleController {
     }
 
     @PostMapping
-    public DeviationRule create(@Valid @RequestBody DeviationRule rule) {
+    public DeviationRule create(@RequestBody DeviationRule rule) {
         return service.createRule(rule);
     }
 
     @PutMapping("/{id}")
-    public DeviationRule update(
-            @PathVariable Long id,
-            @Valid @RequestBody DeviationRule rule) {
+    public DeviationRule update(@PathVariable Long id,
+                                @RequestBody DeviationRule rule) {
         return service.updateRule(id, rule);
     }
 
-    @GetMapping("/active")
-    public List<DeviationRule> getActive() {
+    @GetMapping
+    public List<DeviationRule> getAll() {
         return service.getActiveRules();
     }
 
-    @GetMapping("/surgery/{surgeryType}")
-    public List<DeviationRule> getBySurgery(@PathVariable String surgeryType) {
-        return service.getRulesBySurgery(surgeryType);
+    @GetMapping("/{id}")
+    public DeviationRule getById(@PathVariable Long id) {
+        return service.getRuleByCode(id.toString()).orElseThrow();
     }
 }

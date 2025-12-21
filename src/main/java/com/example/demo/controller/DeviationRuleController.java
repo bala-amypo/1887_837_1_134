@@ -1,37 +1,41 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
-import lombok.*;
+import com.example.demo.model.DeviationRule;
+import com.example.demo.service.DeviationRuleService;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-@Table(name = "deviation_rules", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "ruleCode")
-})
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class DeviationRule {
+import java.util.List;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@RestController
+@RequestMapping("/api/deviation-rules")
+public class DeviationRuleController {
 
-    @Column(nullable = false)
-    private String ruleCode;
+    private final DeviationRuleService service;
 
-    @Column(nullable = false)
-    private String surgeryType;
+    public DeviationRuleController(DeviationRuleService service) {
+        this.service = service;
+    }
 
-    @Column(nullable = false)
-    private String parameter;
+    @PostMapping
+    public DeviationRule create(@Valid @RequestBody DeviationRule rule) {
+        return service.createRule(rule);
+    }
 
-    @Column(nullable = false)
-    private Integer threshold;
+    @PutMapping("/{id}")
+    public DeviationRule update(
+            @PathVariable Long id,
+            @Valid @RequestBody DeviationRule rule) {
+        return service.updateRule(id, rule);
+    }
 
-    @Column(nullable = false)
-    private String severity;
+    @GetMapping("/active")
+    public List<DeviationRule> getActive() {
+        return service.getActiveRules();
+    }
 
-    @Column(nullable = false)
-    private Boolean active = true;
+    @GetMapping("/surgery/{surgeryType}")
+    public List<DeviationRule> getBySurgery(@PathVariable String surgeryType) {
+        return service.getRulesBySurgery(surgeryType);
+    }
 }

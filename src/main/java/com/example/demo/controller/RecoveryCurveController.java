@@ -1,32 +1,34 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
-import lombok.*;
+import com.example.demo.model.RecoveryCurveProfile;
+import com.example.demo.service.RecoveryCurveService;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-@Table(name = "recovery_curve_profiles")
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class RecoveryCurveProfile {
+import java.util.List;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@RestController
+@RequestMapping("/api/recovery-curves")
+public class RecoveryCurveController {
 
-    @Column(nullable = false)
-    private String surgeryType;
+    private final RecoveryCurveService service;
 
-    @Column(nullable = false)
-    private Integer dayNumber;
+    public RecoveryCurveController(RecoveryCurveService service) {
+        this.service = service;
+    }
 
-    @Column(nullable = false)
-    private Integer expectedPainLevel;
+    @PostMapping
+    public RecoveryCurveProfile create(@Valid @RequestBody RecoveryCurveProfile profile) {
+        return service.createCurveEntry(profile);
+    }
 
-    @Column(nullable = false)
-    private Integer expectedMobilityLevel;
+    @GetMapping("/surgery/{surgeryType}")
+    public List<RecoveryCurveProfile> getBySurgery(@PathVariable String surgeryType) {
+        return service.getCurveForSurgery(surgeryType);
+    }
 
-    @Column(nullable = false)
-    private Integer expectedFatigueLevel;
+    @GetMapping
+    public List<RecoveryCurveProfile> getAll() {
+        return service.getAllCurves();
+    }
 }

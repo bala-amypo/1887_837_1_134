@@ -1,46 +1,42 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import com.example.demo.model.DailySymptomLog;
+import com.example.demo.service.DailySymptomLogService;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity
-@Table(
-        name = "daily_symptom_logs",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"patient_id", "logDate"})
-)
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class DailySymptomLog {
+@RestController
+@RequestMapping("/api/symptom-logs")
+public class DailySymptomLogController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final DailySymptomLogService service;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "patient_id")
-    private PatientProfile patient;
+    public DailySymptomLogController(DailySymptomLogService service) {
+        this.service = service;
+    }
 
-    @Column(nullable = false)
-    private LocalDate logDate;
+    @PostMapping
+    public DailySymptomLog create(@Valid @RequestBody DailySymptomLog log) {
+        return service.recordSymptomLog(log);
+    }
 
-    @Column(nullable = false)
-    private Integer painLevel;
+    @PutMapping("/{id}")
+    public DailySymptomLog update(
+            @PathVariable Long id,
+            @Valid @RequestBody DailySymptomLog log) {
+        return service.updateSymptomLog(id, log);
+    }
 
-    @Column(nullable = false)
-    private Integer mobilityLevel;
+    @GetMapping("/patient/{patientId}")
+    public List<DailySymptomLog> getByPatient(@PathVariable Long patientId) {
+        return service.getLogsByPatient(patientId);
+    }
 
-    @Column(nullable = false)
-    private Integer fatigueLevel;
-
-    @Lob
-    private String additionalNotes;
-
-    @CreationTimestamp
-    private LocalDateTime submittedAt;
+    @GetMapping("/{id}")
+    public DailySymptomLog getById(@PathVariable Long id) {
+        return service.getLogById(id)
+                .orElseThrow(() -> new RuntimeException("Log not found"));
+    }
 }

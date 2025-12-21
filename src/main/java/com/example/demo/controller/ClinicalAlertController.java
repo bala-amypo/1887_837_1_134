@@ -1,43 +1,38 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import com.example.demo.model.ClinicalAlertRecord;
+import com.example.demo.service.ClinicalAlertService;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.util.List;
 
-@Entity
-@Table(name = "clinical_alert_records")
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ClinicalAlertRecord {
+@RestController
+@RequestMapping("/api/alerts")
+public class ClinicalAlertController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final ClinicalAlertService service;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "patient_id")
-    private PatientProfile patient;
+    public ClinicalAlertController(ClinicalAlertService service) {
+        this.service = service;
+    }
 
-    @Column(nullable = false)
-    private Long logId;
+    @PostMapping
+    public ClinicalAlertRecord create(@RequestBody ClinicalAlertRecord alert) {
+        return service.createAlert(alert);
+    }
 
-    @Column(nullable = false)
-    private String alertType;
+    @PutMapping("/{id}/resolve")
+    public ClinicalAlertRecord resolve(@PathVariable Long id) {
+        return service.resolveAlert(id);
+    }
 
-    @Column(nullable = false)
-    private String severity;
+    @GetMapping("/patient/{patientId}")
+    public List<ClinicalAlertRecord> getByPatient(@PathVariable Long patientId) {
+        return service.getAlertsByPatient(patientId);
+    }
 
-    @Lob
-    @Column(nullable = false)
-    private String message;
-
-    @Column(nullable = false)
-    private Boolean resolved = false;
-
-    @CreationTimestamp
-    private LocalDate alertDate;
+    @GetMapping
+    public List<ClinicalAlertRecord> getAll() {
+        return service.getAllAlerts();
+    }
 }

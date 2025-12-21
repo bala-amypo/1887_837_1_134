@@ -13,24 +13,23 @@ public class PatientProfileController {
 
     private final PatientProfileService service;
 
-    // Constructor injection
     public PatientProfileController(PatientProfileService service) {
         this.service = service;
     }
 
     @PostMapping
-    public PatientProfile createPatient(@Valid @RequestBody PatientProfile patient) {
+    public PatientProfile create(@Valid @RequestBody PatientProfile patient) {
         return service.createPatient(patient);
     }
 
     @GetMapping("/{id}")
-    public PatientProfile getPatientById(@PathVariable Long id) {
+    public PatientProfile getById(@PathVariable Long id) {
         return service.getPatientById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
     }
 
     @GetMapping
-    public List<PatientProfile> getAllPatients() {
+    public List<PatientProfile> getAll() {
         return service.getAllPatients();
     }
 

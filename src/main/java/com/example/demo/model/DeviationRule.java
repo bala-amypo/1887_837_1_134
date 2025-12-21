@@ -3,6 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "deviation_rules")
 public class DeviationRule {
 
     @Id
@@ -10,32 +11,39 @@ public class DeviationRule {
     private Long id;
 
     private String surgeryType;
-    private String symptomParameter;
-    private Integer thresholdDeviation;
-    private Boolean active;
+    private String parameter;
+    private Integer threshold;
+    private String severity;
+    private Boolean active = true;
 
+    // No-arg constructor
     public DeviationRule() {}
 
-    public DeviationRule(Long id, String surgeryType, String symptomParameter,
-                         Integer thresholdDeviation, Boolean active) {
-        this.id = id;
+    // Parameterized constructor
+    public DeviationRule(String surgeryType, String parameter,
+                         Integer threshold, String severity) {
         this.surgeryType = surgeryType;
-        this.symptomParameter = symptomParameter;
-        this.thresholdDeviation = thresholdDeviation;
-        this.active = active;
+        this.parameter = parameter;
+        this.threshold = threshold;
+        this.severity = severity;
+        this.active = true;
     }
 
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public String getSurgeryType() { return surgeryType; }
     public void setSurgeryType(String surgeryType) { this.surgeryType = surgeryType; }
 
-    public String getSymptomParameter() { return symptomParameter; }
-    public void setSymptomParameter(String symptomParameter) { this.symptomParameter = symptomParameter; }
+    public String getParameter() { return parameter; }
+    public void setParameter(String parameter) { this.parameter = parameter; }
 
-    public Integer getThresholdDeviation() { return thresholdDeviation; }
-    public void setThresholdDeviation(Integer thresholdDeviation) { this.thresholdDeviation = thresholdDeviation; }
+    public Integer getThreshold() { return threshold; }
+    public void setThreshold(Integer threshold) { this.threshold = threshold; }
+
+    public String getSeverity() { return severity; }
+    public void setSeverity(String severity) { this.severity = severity; }
 
     public Boolean getActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }

@@ -58,14 +58,22 @@ public class DailySymptomLog {
 
     // Getters & Setters
     public Long getId() { return id; }
+
     public PatientProfile getPatient() { return patient; }
     public void setPatient(PatientProfile patient) { this.patient = patient; }
+
     public LocalDate getLogDate() { return logDate; }
     public void setLogDate(LocalDate logDate) { this.logDate = logDate; }
+
     public Integer getPainLevel() { return painLevel; }
     public void setPainLevel(Integer painLevel) { this.painLevel = painLevel; }
+
     public Integer getMobilityLevel() { return mobilityLevel; }
     public void setMobilityLevel(Integer mobilityLevel) { this.mobilityLevel = mobilityLevel; }
+
     public Integer getFatigueLevel() { return fatigueLevel; }
     public void setFatigueLevel(Integer fatigueLevel) { this.fatigueLevel = fatigueLevel; }
+
+    public String getAdditionalNotes() { return additionalNotes; }
+    public void setAdditionalNotes(String additionalNotes) { this.additionalNotes = additionalNotes; }
 }

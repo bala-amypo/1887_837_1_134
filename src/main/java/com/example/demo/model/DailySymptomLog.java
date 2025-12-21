@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -19,24 +21,31 @@ public class DailySymptomLog {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
+    @NotNull
     private PatientProfile patient;
 
+    @NotNull
     private LocalDate logDate;
+
+    @NotNull @Min(0) @Max(10)
     private Integer painLevel;
+
+    @NotNull @Min(0) @Max(10)
     private Integer mobilityLevel;
+
+    @NotNull @Min(0) @Max(10)
     private Integer fatigueLevel;
 
+    @Size(max = 2000)
     @Lob
     private String additionalNotes;
 
     private LocalDateTime submittedAt;
 
-    // No-arg constructor
     public DailySymptomLog() {
         this.submittedAt = LocalDateTime.now();
     }
 
-    // Parameterized constructor
     public DailySymptomLog(PatientProfile patient, LocalDate logDate,
                            Integer painLevel, Integer mobilityLevel,
                            Integer fatigueLevel) {
@@ -48,28 +57,18 @@ public class DailySymptomLog {
         this.submittedAt = LocalDateTime.now();
     }
 
-    // Getters & Setters
+    // getters & setters
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
     public PatientProfile getPatient() { return patient; }
     public void setPatient(PatientProfile patient) { this.patient = patient; }
-
     public LocalDate getLogDate() { return logDate; }
     public void setLogDate(LocalDate logDate) { this.logDate = logDate; }
-
     public Integer getPainLevel() { return painLevel; }
     public void setPainLevel(Integer painLevel) { this.painLevel = painLevel; }
-
     public Integer getMobilityLevel() { return mobilityLevel; }
     public void setMobilityLevel(Integer mobilityLevel) { this.mobilityLevel = mobilityLevel; }
-
     public Integer getFatigueLevel() { return fatigueLevel; }
     public void setFatigueLevel(Integer fatigueLevel) { this.fatigueLevel = fatigueLevel; }
-
     public String getAdditionalNotes() { return additionalNotes; }
     public void setAdditionalNotes(String additionalNotes) { this.additionalNotes = additionalNotes; }
-
-    public LocalDateTime getSubmittedAt() { return submittedAt; }
-    public void setSubmittedAt(LocalDateTime submittedAt) { this.submittedAt = submittedAt; }
 }

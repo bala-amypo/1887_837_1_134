@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,16 +14,25 @@ public class PatientProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(unique = true, nullable = false)
     private String patientId;
 
+    @NotBlank
     private String fullName;
+
+    @NotNull
+    @Positive
     private Integer age;
 
+    @NotBlank
+    @Email
     @Column(unique = true)
     private String email;
 
+    @NotBlank
     private String surgeryType;
+
     private Boolean active = true;
 
     private LocalDateTime createdAt;
@@ -49,7 +60,7 @@ public class PatientProfile {
         this.createdAt = LocalDateTime.now();
     }
 
-    // Getters & Setters
+    // Getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -72,7 +83,6 @@ public class PatientProfile {
     public void setActive(Boolean active) { this.active = active; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
     public List<DailySymptomLog> getSymptomLogs() { return symptomLogs; }
     public void setSymptomLogs(List<DailySymptomLog> symptomLogs) { this.symptomLogs = symptomLogs; }

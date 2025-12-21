@@ -16,5 +16,6 @@ public interface ClinicalAlertRecordRepository
     List<ClinicalAlertRecord> findBySeverity(String severity);
 
     List<ClinicalAlertRecord> findByAlertDateBetween(
-            LocalDate startDate, LocalDate endDate);
+            LocalDate startDate, LocalDate endDate
+    );
 }

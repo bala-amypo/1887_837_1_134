@@ -13,8 +13,10 @@ public interface DailySymptomLogRepository
     List<DailySymptomLog> findByPatientId(Long patientId);
 
     Optional<DailySymptomLog> findByPatientIdAndLogDate(
-            Long patientId, LocalDate logDate);
+            Long patientId, LocalDate logDate
+    );
 
     List<DailySymptomLog> findByLogDateBetween(
-            LocalDate startDate, LocalDate endDate);
+            LocalDate startDate, LocalDate endDate
+    );
 }

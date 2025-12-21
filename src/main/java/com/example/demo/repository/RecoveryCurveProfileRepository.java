@@ -9,10 +9,11 @@ import java.util.Optional;
 public interface RecoveryCurveProfileRepository
         extends JpaRepository<RecoveryCurveProfile, Long> {
 
-    List<RecoveryCurveProfile> findBySurgeryType(String surgeryType);
-
     List<RecoveryCurveProfile> findBySurgeryTypeOrderByDayNumberAsc(String surgeryType);
 
     Optional<RecoveryCurveProfile> findBySurgeryTypeAndDayNumber(
-            String surgeryType, Integer dayNumber);
+            String surgeryType, Integer dayNumber
+    );
+
+    List<RecoveryCurveProfile> findBySurgeryType(String surgeryType);
 }

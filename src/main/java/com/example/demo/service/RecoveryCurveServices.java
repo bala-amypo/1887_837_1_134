@@ -13,6 +13,9 @@ public interface RecoveryCurveService {
 
     List<RecoveryCurveProfile> getAllCurves();
 
+    Optional<RecoveryCurveProfile> getCurveById(Long id);
+
     Optional<RecoveryCurveProfile> getCurveByDayAndSurgery(
-            String surgeryType, Integer dayNumber);
+            String surgeryType, Integer dayNumber
+    );
 }

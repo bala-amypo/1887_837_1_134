@@ -1,13 +1,12 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.DailySymptomLog;
+import com.example.demo.model.PatientProfile;
 import com.example.demo.repository.DailySymptomLogRepository;
+import com.example.demo.repository.PatientProfileRepository; // 🔥 REQUIRED
 import com.example.demo.service.DailySymptomLogService;
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DailySymptomLogServiceImpl implements DailySymptomLogService {
@@ -32,7 +31,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
                         new ResourceNotFoundException("Patient not found with id " + patientId)
                 );
 
-        log.setPatient(patient); // 🔥 THIS LINE IS THE KEY
+        log.setPatient(patient);
 
         return repository.save(log);
     }

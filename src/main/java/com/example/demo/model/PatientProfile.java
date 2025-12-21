@@ -1,47 +1,52 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "patient_profiles",
-       uniqueConstraints = {
-           @UniqueConstraint(columnNames = "patientId"),
-           @UniqueConstraint(columnNames = "email")
-       })
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class PatientProfile {
+public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    private String patientId;
-
-    @NotBlank
-    private String fullName;
-
-    @NotNull
-    @Positive
+    private String name;
     private Integer age;
-
-    @NotBlank
-    @Email
-    private String email;
-
-    @NotBlank
     private String surgeryType;
 
-    private Boolean active = true;
+    // ----- getters & setters -----
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getSurgeryType() {
+        return surgeryType;
+    }
+
+    public void setSurgeryType(String surgeryType) {
+        this.surgeryType = surgeryType;
+    }
 }

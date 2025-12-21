@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.PatientProfile;
 import com.example.demo.repository.PatientProfileRepository;
 import com.example.demo.service.PatientProfileService;
@@ -13,7 +14,6 @@ public class PatientProfileServiceImpl implements PatientProfileService {
 
     private final PatientProfileRepository repository;
 
-    // Constructor injection (REQUIRED)
     public PatientProfileServiceImpl(PatientProfileRepository repository) {
         this.repository = repository;
     }
@@ -39,8 +39,7 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     @Override
     public PatientProfile updatePatientStatus(Long id, boolean active) {
         PatientProfile patient = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
-
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
         patient.setActive(active);
         return repository.save(patient);
     }

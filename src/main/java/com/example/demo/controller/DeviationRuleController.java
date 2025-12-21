@@ -27,13 +27,13 @@ public class DeviationRuleController {
         return service.updateRule(id, rule);
     }
 
-    @GetMapping
-    public List<DeviationRule> getAll() {
+    @GetMapping("/active")
+    public List<DeviationRule> getActiveRules() {
         return service.getActiveRules();
     }
 
     @GetMapping("/{id}")
     public DeviationRule getById(@PathVariable Long id) {
-        return service.getRuleByCode(id.toString()).orElseThrow();
+        return service.getRuleById(id).orElseThrow();
     }
 }

@@ -1,17 +1,18 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "patient_profiles", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "patientId"),
-        @UniqueConstraint(columnNames = "email")
-})
+@Table(name = "patient_profiles",
+       uniqueConstraints = {
+           @UniqueConstraint(columnNames = "patientId"),
+           @UniqueConstraint(columnNames = "email")
+       })
 @Data
 @Builder
 @NoArgsConstructor
@@ -22,30 +23,25 @@ public class PatientProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @NotBlank
     private String patientId;
 
-    @Column(nullable = false)
+    @NotBlank
     private String fullName;
 
-    @Column(nullable = false)
+    @NotNull
+    @Positive
     private Integer age;
 
-    @Column(nullable = false, unique = true)
+    @NotBlank
+    @Email
     private String email;
 
-    @Column(nullable = false)
+    @NotBlank
     private String surgeryType;
 
-    @Column(nullable = false)
     private Boolean active = true;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
-
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DailySymptomLog> symptomLogs;
-
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ClinicalAlertRecord> alerts;
 }

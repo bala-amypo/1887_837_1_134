@@ -13,36 +13,27 @@ import java.util.Optional;
 public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
     private final DailySymptomLogRepository repository;
+    private final PatientProfileRepository patientRepository;
 
-    public DailySymptomLogServiceImpl(DailySymptomLogRepository repository) {
+    public DailySymptomLogServiceImpl(
+            DailySymptomLogRepository repository,
+            PatientProfileRepository patientRepository) {
         this.repository = repository;
+        this.patientRepository = patientRepository;
     }
 
     @Override
-    public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
-        if (log.getLogDate().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("future date");
-        }
+    public DailySymptomLog create(DailySymptomLog log) {
+
+        Long patientId = log.getPatient().getId();
+
+        PatientProfile patient = patientRepository.findById(patientId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Patient not found with id " + patientId)
+                );
+
+        log.setPatient(patient); // 🔥 THIS LINE IS THE KEY
+
         return repository.save(log);
-    }
-
-    @Override
-    public List<DailySymptomLog> getLogsByPatient(Long patientId) {
-        return repository.findByPatientId(patientId);
-    }
-
-    @Override
-    public Optional<DailySymptomLog> getLogById(Long id) {
-        return repository.findById(id);
-    }
-
-    @Override
-    public DailySymptomLog updateSymptomLog(Long id, DailySymptomLog log) {
-        DailySymptomLog existing = repository.findById(id).orElseThrow();
-        existing.setPainLevel(log.getPainLevel());
-        existing.setMobilityLevel(log.getMobilityLevel());
-        existing.setFatigueLevel(log.getFatigueLevel());
-        existing.setAdditionalNotes(log.getAdditionalNotes());
-        return repository.save(existing);
     }
 }

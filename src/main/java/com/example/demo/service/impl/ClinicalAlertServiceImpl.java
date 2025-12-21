@@ -34,8 +34,7 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
     @Override
     public ClinicalAlertRecord resolveAlert(Long alertId) {
-        ClinicalAlertRecord alert = repository.findById(alertId)
-                .orElseThrow(() -> new RuntimeException("Alert not found"));
+        ClinicalAlertRecord alert = repository.findById(alertId).orElseThrow();
         alert.setResolved(true);
         return repository.save(alert);
     }

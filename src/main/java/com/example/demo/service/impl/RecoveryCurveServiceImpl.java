@@ -33,8 +33,12 @@ public class RecoveryCurveServiceImpl implements RecoveryCurveService {
     }
 
     @Override
-    public Optional<RecoveryCurveProfile> getCurveByDayAndSurgery(
-            String surgeryType, Integer dayNumber) {
+    public Optional<RecoveryCurveProfile> getCurveById(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public Optional<RecoveryCurveProfile> getCurveByDayAndSurgery(String surgeryType, Integer dayNumber) {
         return repository.findBySurgeryTypeAndDayNumber(surgeryType, dayNumber);
     }
 }

@@ -19,9 +19,8 @@ public class PatientProfileServiceImpl implements PatientProfileService {
 
     @Override
     public PatientProfile createPatient(PatientProfile patient) {
-        if (repository.findByEmail(patient.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
-        }
+        repository.findByEmail(patient.getEmail())
+                .ifPresent(p -> { throw new IllegalArgumentException("Email already exists"); });
         return repository.save(patient);
     }
 
@@ -37,8 +36,7 @@ public class PatientProfileServiceImpl implements PatientProfileService {
 
     @Override
     public PatientProfile updatePatientStatus(Long id, boolean active) {
-        PatientProfile patient = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
+        PatientProfile patient = repository.findById(id).orElseThrow();
         patient.setActive(active);
         return repository.save(patient);
     }

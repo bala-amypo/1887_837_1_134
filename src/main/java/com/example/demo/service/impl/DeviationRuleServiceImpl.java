@@ -42,13 +42,10 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
 
     @Override
     public DeviationRule updateRule(Long id, DeviationRule rule) {
-        DeviationRule existing = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rule not found"));
-
+        DeviationRule existing = repository.findById(id).orElseThrow();
         existing.setThreshold(rule.getThreshold());
         existing.setSeverity(rule.getSeverity());
         existing.setActive(rule.getActive());
-
         return repository.save(existing);
     }
 }

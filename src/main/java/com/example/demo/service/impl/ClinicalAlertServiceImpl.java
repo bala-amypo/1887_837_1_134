@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.service.ClinicalAlertService;
@@ -36,7 +35,7 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     @Override
     public ClinicalAlertRecord resolveAlert(Long alertId) {
         ClinicalAlertRecord alert = repository.findById(alertId)
-                .orElseThrow(() -> new ResourceNotFoundException("not found"));
+                .orElseThrow(() -> new RuntimeException("Alert not found"));
         alert.setResolved(true);
         return repository.save(alert);
     }
@@ -46,4 +45,3 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
         return repository.findAll();
     }
 }
-

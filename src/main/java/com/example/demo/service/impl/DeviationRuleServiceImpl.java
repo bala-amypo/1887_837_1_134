@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.DeviationRule;
 import com.example.demo.repository.DeviationRuleRepository;
 import com.example.demo.service.DeviationRuleService;
@@ -27,8 +26,8 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
     }
 
     @Override
-    public Optional<DeviationRule> getRuleByCode(String ruleCode) {
-        return Optional.empty();
+    public Optional<DeviationRule> getRuleById(Long id) {
+        return repository.findById(id);
     }
 
     @Override
@@ -44,10 +43,12 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
     @Override
     public DeviationRule updateRule(Long id, DeviationRule rule) {
         DeviationRule existing = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("not found"));
+                .orElseThrow(() -> new RuntimeException("Rule not found"));
+
         existing.setThreshold(rule.getThreshold());
         existing.setSeverity(rule.getSeverity());
         existing.setActive(rule.getActive());
+
         return repository.save(existing);
     }
 }

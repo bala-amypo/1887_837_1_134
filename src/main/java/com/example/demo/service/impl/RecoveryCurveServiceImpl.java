@@ -24,7 +24,7 @@ public class RecoveryCurveServiceImpl implements RecoveryCurveService {
 
     @Override
     public List<RecoveryCurveProfile> getCurveForSurgery(String surgeryType) {
-        return repository.findBySurgeryType(surgeryType);
+        return repository.findBySurgeryTypeOrderByDayNumberAsc(surgeryType);
     }
 
     @Override
@@ -33,7 +33,8 @@ public class RecoveryCurveServiceImpl implements RecoveryCurveService {
     }
 
     @Override
-    public Optional<RecoveryCurveProfile> getCurveByDayAndSurgery(String surgeryType, Integer dayNumber) {
+    public Optional<RecoveryCurveProfile> getCurveByDayAndSurgery(
+            String surgeryType, Integer dayNumber) {
         return repository.findBySurgeryTypeAndDayNumber(surgeryType, dayNumber);
     }
 }

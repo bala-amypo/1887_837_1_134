@@ -1,10 +1,13 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
-@Table(name = "app_users")
+@Table(name = "app_users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")
+})
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,11 +18,18 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @NotBlank
+    @Email
     private String email;
 
+    @NotBlank
+    @Size(min = 6)
     private String password;
-    private String fullName;
-    private String role;
-}
 
+    @NotBlank
+    private String fullName;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private UserRole role;
+}

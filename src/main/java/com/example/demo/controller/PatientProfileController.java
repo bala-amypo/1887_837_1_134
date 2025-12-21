@@ -1,47 +1,49 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import com.example.demo.model.PatientProfile;
+import com.example.demo.service.PatientProfileService;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity
-@Table(name = "patient_profiles",
-       uniqueConstraints = {
-           @UniqueConstraint(columnNames = "patientId"),
-           @UniqueConstraint(columnNames = "email")
-       })
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class PatientProfile {
+@RestController
+@RequestMapping("/api/patients")
+public class PatientProfileController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final PatientProfileService service;
 
-    @NotBlank
-    private String patientId;
+    // Constructor injection
+    public PatientProfileController(PatientProfileService service) {
+        this.service = service;
+    }
 
-    @NotBlank
-    private String fullName;
+    @PostMapping
+    public PatientProfile createPatient(@Valid @RequestBody PatientProfile patient) {
+        return service.createPatient(patient);
+    }
 
-    @NotNull
-    @Positive
-    private Integer age;
+    @GetMapping("/{id}")
+    public PatientProfile getPatientById(@PathVariable Long id) {
+        return service.getPatientById(id)
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+    }
 
-    @NotBlank
-    @Email
-    private String email;
+    @GetMapping
+    public List<PatientProfile> getAllPatients() {
+        return service.getAllPatients();
+    }
 
-    @NotBlank
-    private String surgeryType;
+    @PutMapping("/{id}/status")
+    public PatientProfile updateStatus(
+            @PathVariable Long id,
+            @RequestParam boolean active) {
+        return service.updatePatientStatus(id, active);
+    }
 
-    private Boolean active = true;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    @GetMapping("/lookup/{patientId}")
+    public PatientProfile getByPatientId(@PathVariable String patientId) {
+        return service.findByPatientId(patientId)
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+    }
 }

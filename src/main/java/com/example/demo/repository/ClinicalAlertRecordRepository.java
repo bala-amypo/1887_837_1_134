@@ -10,8 +10,11 @@ public interface ClinicalAlertRecordRepository
         extends JpaRepository<ClinicalAlertRecord, Long> {
 
     List<ClinicalAlertRecord> findByPatientId(Long patientId);
-    List<ClinicalAlertRecord> findByResolved(Boolean resolved);
-    List<ClinicalAlertRecord> findBySeverity(String severity);
-    List<ClinicalAlertRecord> findByAlertDateBetween(LocalDate startDate, LocalDate endDate);
-}
 
+    List<ClinicalAlertRecord> findByResolved(Boolean resolved);
+
+    List<ClinicalAlertRecord> findBySeverity(String severity);
+
+    List<ClinicalAlertRecord> findByAlertDateBetween(
+            LocalDate startDate, LocalDate endDate);
+}

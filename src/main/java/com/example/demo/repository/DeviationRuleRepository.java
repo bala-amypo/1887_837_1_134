@@ -4,12 +4,13 @@ import com.example.demo.model.DeviationRule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface DeviationRuleRepository extends JpaRepository<DeviationRule, Long> {
+public interface DeviationRuleRepository
+        extends JpaRepository<DeviationRule, Long> {
 
     List<DeviationRule> findBySurgeryType(String surgeryType);
+
     List<DeviationRule> findByActiveTrue();
+
     List<DeviationRule> findByActiveFalse();
-    Optional<DeviationRule> findByRuleCode(String ruleCode);
 }

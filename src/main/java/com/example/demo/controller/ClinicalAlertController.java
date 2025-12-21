@@ -26,6 +26,11 @@ public class ClinicalAlertController {
         return service.resolveAlert(id);
     }
 
+    @GetMapping("/{id}")
+    public ClinicalAlertRecord getById(@PathVariable Long id) {
+        return service.getAlertById(id).orElseThrow();
+    }
+
     @GetMapping("/patient/{patientId}")
     public List<ClinicalAlertRecord> getByPatient(@PathVariable Long patientId) {
         return service.getAlertsByPatient(patientId);

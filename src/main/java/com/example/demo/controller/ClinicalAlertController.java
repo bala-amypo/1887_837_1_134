@@ -4,8 +4,10 @@ import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.service.ClinicalAlertService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/alerts")
+@RequestMapping("/api/alerts")
 public class ClinicalAlertController {
 
     private final ClinicalAlertService service;
@@ -15,7 +17,17 @@ public class ClinicalAlertController {
     }
 
     @PostMapping
-    public ClinicalAlertRecord create(@RequestBody ClinicalAlertRecord alert) {
-        return service.createAlert(alert);
+    public ClinicalAlertRecord createAlert(@RequestBody ClinicalAlertRecord record) {
+        return service.saveAlert(record);
+    }
+
+    @GetMapping("/patient/{patientId}")
+    public List<ClinicalAlertRecord> getByPatient(@PathVariable Long patientId) {
+        return service.getAlertsByPatientId(patientId);
+    }
+
+    @GetMapping("/level/{level}")
+    public List<ClinicalAlertRecord> getByLevel(@PathVariable String level) {
+        return service.getAlertsByLevel(level);
     }
 }

@@ -4,9 +4,7 @@ import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.service.ClinicalAlertService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
@@ -18,29 +16,17 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
-        return repository.save(alert);
-    }
-
-    @Override
-    public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
+    public List<ClinicalAlertRecord> getAlertsByPatientId(Long patientId) {
         return repository.findByPatientId(patientId);
     }
 
     @Override
-    public Optional<ClinicalAlertRecord> getAlertById(Long id) {
-        return repository.findById(id);
+    public List<ClinicalAlertRecord> getAlertsByLevel(String alertLevel) {
+        return repository.findByAlertLevel(alertLevel);
     }
 
     @Override
-    public ClinicalAlertRecord resolveAlert(Long alertId) {
-        ClinicalAlertRecord alert = repository.findById(alertId).orElseThrow();
-        alert.setResolved(true);
-        return repository.save(alert);
-    }
-
-    @Override
-    public List<ClinicalAlertRecord> getAllAlerts() {
-        return repository.findAll();
+    public ClinicalAlertRecord saveAlert(ClinicalAlertRecord record) {
+        return repository.save(record);
     }
 }

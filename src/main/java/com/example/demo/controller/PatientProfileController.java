@@ -1,35 +1,21 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
+import com.example.demo.model.PatientProfile;
+import com.example.demo.service.PatientProfileService;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-@Table(name = "patients")
-public class PatientProfile {
+@RestController
+@RequestMapping("/patients")
+public class PatientProfileController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final PatientProfileService service;
 
-    private String name;
-    private int age;
-
-    public Long getId() {
-        return id;
+    public PatientProfileController(PatientProfileService service) {
+        this.service = service;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
+    @PostMapping
+    public PatientProfile create(@RequestBody PatientProfile patient) {
+        return service.createPatient(patient);
     }
 }

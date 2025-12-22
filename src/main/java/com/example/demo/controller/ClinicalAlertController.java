@@ -1,42 +1,21 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import com.example.demo.model.ClinicalAlertRecord;
+import com.example.demo.service.ClinicalAlertService;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-@Table(name = "clinical_alerts")
-public class ClinicalAlertRecord {
+@RestController
+@RequestMapping("/alerts")
+public class ClinicalAlertController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final ClinicalAlertService service;
 
-    private String message;
-    private String severity;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    public Long getId() {
-        return id;
+    public ClinicalAlertController(ClinicalAlertService service) {
+        this.service = service;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public String getSeverity() {
-        return severity;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public void setSeverity(String severity) {
-        this.severity = severity;
+    @PostMapping
+    public ClinicalAlertRecord create(@RequestBody ClinicalAlertRecord alert) {
+        return service.createAlert(alert);
     }
 }

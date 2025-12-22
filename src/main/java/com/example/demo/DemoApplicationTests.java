@@ -8,6 +8,5 @@ class DemoApplicationTests {
 
     @Test
     void contextLoads() {
-        // This test will pass if Spring Boot starts correctly
     }
 }

@@ -1,8 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "clinical_alerts")
@@ -12,35 +11,39 @@ public class ClinicalAlertRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    private String alertType;
+    private String alertMessage;
 
-    @NotBlank
-    private String message;
+    private String severity;   // ✅ REQUIRED FIELD
 
-    @NotBlank
-    private String severity;   // 🔥 REQUIRED FIELD (LOW / MEDIUM / HIGH)
+    private LocalDate alertDate;
 
-    private boolean resolved = false;
+    private boolean resolved;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "patient_id")
     private PatientProfile patient;
 
+    // Constructors
     public ClinicalAlertRecord() {}
 
-    // getters & setters
+    public ClinicalAlertRecord(String alertMessage, String severity, LocalDate alertDate, boolean resolved) {
+        this.alertMessage = alertMessage;
+        this.severity = severity;
+        this.alertDate = alertDate;
+        this.resolved = resolved;
+    }
+
+    // Getters & Setters
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
-    public String getAlertType() { return alertType; }
-    public void setAlertType(String alertType) { this.alertType = alertType; }
-
-    public String getMessage() { return message; }
-    public void setMessage(String message) { this.message = message; }
+    public String getAlertMessage() { return alertMessage; }
+    public void setAlertMessage(String alertMessage) { this.alertMessage = alertMessage; }
 
     public String getSeverity() { return severity; }
     public void setSeverity(String severity) { this.severity = severity; }
+
+    public LocalDate getAlertDate() { return alertDate; }
+    public void setAlertDate(LocalDate alertDate) { this.alertDate = alertDate; }
 
     public boolean isResolved() { return resolved; }
     public void setResolved(boolean resolved) { this.resolved = resolved; }

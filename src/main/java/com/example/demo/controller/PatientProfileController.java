@@ -1,44 +1,35 @@
-package com.example.demo.controller;
+package com.example.demo.model;
 
-import com.example.demo.model.PatientProfile;
-import com.example.demo.service.PatientProfileService;
-import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.*;
 
-import java.util.List;
+@Entity
+@Table(name = "patients")
+public class PatientProfile {
 
-@RestController
-@RequestMapping("/api/patients")
-public class PatientProfileController {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private final PatientProfileService service;
+    private String name;
+    private int age;
 
-    public PatientProfileController(PatientProfileService service) {
-        this.service = service;
+    public Long getId() {
+        return id;
     }
 
-    @PostMapping
-    public PatientProfile create(@RequestBody PatientProfile patient) {
-        return service.createPatient(patient);
+    public String getName() {
+        return name;
     }
 
-    @GetMapping("/{id}")
-    public PatientProfile getById(@PathVariable Long id) {
-        return service.getPatientById(id).orElseThrow();
+    public int getAge() {
+        return age;
     }
 
-    @GetMapping
-    public List<PatientProfile> getAll() {
-        return service.getAllPatients();
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @PutMapping("/{id}/status")
-    public PatientProfile updateStatus(@PathVariable Long id,
-                                       @RequestParam boolean active) {
-        return service.updatePatientStatus(id, active);
-    }
-
-    @GetMapping("/lookup/{patientId}")
-    public PatientProfile getByPatientId(@PathVariable String patientId) {
-        return service.findByPatientId(patientId).orElseThrow();
+    public void setAge(int age) {
+        this.age = age;
     }
 }

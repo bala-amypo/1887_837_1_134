@@ -1,43 +1,42 @@
-package com.example.demo.controller;
+package com.example.demo.model;
 
-import com.example.demo.model.ClinicalAlertRecord;
-import com.example.demo.service.ClinicalAlertService;
-import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
-import java.util.List;
+@Entity
+@Table(name = "clinical_alerts")
+public class ClinicalAlertRecord {
 
-@RestController
-@RequestMapping("/api/alerts")
-public class ClinicalAlertController {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private final ClinicalAlertService service;
+    private String message;
+    private String severity;
 
-    public ClinicalAlertController(ClinicalAlertService service) {
-        this.service = service;
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    public Long getId() {
+        return id;
     }
 
-    @PostMapping
-    public ClinicalAlertRecord create(@RequestBody ClinicalAlertRecord alert) {
-        return service.createAlert(alert);
+    public String getMessage() {
+        return message;
     }
 
-    @PutMapping("/{id}/resolve")
-    public ClinicalAlertRecord resolve(@PathVariable Long id) {
-        return service.resolveAlert(id);
+    public String getSeverity() {
+        return severity;
     }
 
-    @GetMapping("/{id}")
-    public ClinicalAlertRecord getById(@PathVariable Long id) {
-        return service.getAlertById(id).orElseThrow();
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    @GetMapping("/patient/{patientId}")
-    public List<ClinicalAlertRecord> getByPatient(@PathVariable Long patientId) {
-        return service.getAlertsByPatient(patientId);
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    @GetMapping
-    public List<ClinicalAlertRecord> getAll() {
-        return service.getAllAlerts();
+    public void setSeverity(String severity) {
+        this.severity = severity;
     }
 }

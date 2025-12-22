@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/symptom-logs")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class DailySymptomLogController {
 
     private final DailySymptomLogService service;

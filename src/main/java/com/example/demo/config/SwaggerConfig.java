@@ -1,20 +1,19 @@
 package com.example.demo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI customOpenAPI() {
+    public OpenAPI apiInfo() {
         return new OpenAPI()
-                .servers(List.of(
-                        new Server().url("https://9214.408procr.amypo.ai/")
-                ));
+                .info(new Info()
+                        .title("Post-Surgery Recovery Tracker API")
+                        .description("API documentation")
+                        .version("1.0"));
     }
 }

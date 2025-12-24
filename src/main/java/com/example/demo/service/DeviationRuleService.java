@@ -9,11 +9,9 @@ public interface DeviationRuleService {
 
     DeviationRule createRule(DeviationRule rule);
 
-    Optional<DeviationRule> getRuleById(Long id);
+    DeviationRule updateRule(Long id, DeviationRule rule);
 
-    List<DeviationRule> getRulesBySurgery(String surgeryType);
+    Optional<DeviationRule> getRuleByCode(String code);
 
     List<DeviationRule> getActiveRules();
-
-    DeviationRule updateRule(Long id, DeviationRule rule);
 }

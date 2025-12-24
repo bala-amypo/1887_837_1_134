@@ -1,8 +1,14 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClinicalAlertRecord {
 
     @Id
@@ -11,9 +17,13 @@ public class ClinicalAlertRecord {
 
     private Long patientId;
 
-    private String alertMessage;
+    private Long logId;
 
-    private String alertLevel; // use this instead of severity
+    private String alertType;
 
-    // getters and setters
+    private String severity;
+
+    private String message;
+
+    private Boolean resolved = false;
 }

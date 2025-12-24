@@ -1,17 +1,38 @@
-// package com.example.demo.config;
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
 
-// import org.springframework.context.annotation.Configuration;
-// import org.springframework.web.servlet.config.annotation.CorsRegistry;
-// import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                // PUBLIC ENDPOINTS
+                .requestMatchers(
+                    "/auth/**",
+                    "/status",
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui.html"
+                ).permitAll()
 
-// @Configuration
-// public class SecurityConfig implements WebMvcConfigurer {
+                // PROTECTED API
+                .requestMatchers("/api/**").authenticated()
 
-//     @Override
-//     public void addCorsMappings(CorsRegistry registry) {
-//         registry.addMapping("/**")
-//                 .allowedOrigins("*")
-//                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-//                 .allowedHeaders("*");
-//     }
-// }
+                .anyRequest().permitAll()
+            );
+
+        return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+}

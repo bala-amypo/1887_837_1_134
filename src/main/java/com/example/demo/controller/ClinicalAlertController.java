@@ -5,6 +5,7 @@ import com.example.demo.service.ClinicalAlertService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/alerts")
@@ -16,18 +17,23 @@ public class ClinicalAlertController {
         this.service = service;
     }
 
-    @PostMapping
-    public ClinicalAlertRecord createAlert(@RequestBody ClinicalAlertRecord record) {
-        return service.saveAlert(record);
+    @GetMapping
+    public List<ClinicalAlertRecord> getAll() {
+        return service.getAllAlerts();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<ClinicalAlertRecord> getById(@PathVariable Long id) {
+        return service.getAlertById(id);
     }
 
     @GetMapping("/patient/{patientId}")
     public List<ClinicalAlertRecord> getByPatient(@PathVariable Long patientId) {
-        return service.getAlertsByPatientId(patientId);
+        return service.getAlertsByPatient(patientId);
     }
 
-    @GetMapping("/level/{level}")
-    public List<ClinicalAlertRecord> getByLevel(@PathVariable String level) {
-        return service.getAlertsByLevel(level);
+    @PutMapping("/{id}/resolve")
+    public ClinicalAlertRecord resolve(@PathVariable Long id) {
+        return service.resolveAlert(id);
     }
 }

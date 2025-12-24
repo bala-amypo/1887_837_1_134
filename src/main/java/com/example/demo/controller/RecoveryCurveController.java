@@ -21,22 +21,13 @@ public class RecoveryCurveController {
         return service.createCurveEntry(curve);
     }
 
-    @GetMapping
-    public List<RecoveryCurveProfile> getAll() {
-        return service.getAllCurves();
-    }
-
-    @GetMapping("/surgery/{surgeryType}")
+    @GetMapping("/{surgeryType}")
     public List<RecoveryCurveProfile> getBySurgery(@PathVariable String surgeryType) {
         return service.getCurveForSurgery(surgeryType);
     }
 
-    @GetMapping("/{id}")
-    public RecoveryCurveProfile getById(@PathVariable Long id) {
-        return service.getAllCurves()
-                .stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst()
-                .orElseThrow();
+    @GetMapping
+    public List<RecoveryCurveProfile> getAll() {
+        return service.getAllCurves();
     }
 }

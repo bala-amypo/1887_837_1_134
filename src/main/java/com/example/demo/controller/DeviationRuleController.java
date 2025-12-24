@@ -5,6 +5,7 @@ import com.example.demo.service.DeviationRuleService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/deviation-rules")
@@ -28,12 +29,12 @@ public class DeviationRuleController {
     }
 
     @GetMapping("/active")
-    public List<DeviationRule> getActiveRules() {
+    public List<DeviationRule> getActive() {
         return service.getActiveRules();
     }
 
-    @GetMapping("/{id}")
-    public DeviationRule getById(@PathVariable Long id) {
-        return service.getRuleById(id).orElseThrow();
+    @GetMapping("/{code}")
+    public Optional<DeviationRule> getByCode(@PathVariable String code) {
+        return service.getRuleByCode(code);
     }
 }

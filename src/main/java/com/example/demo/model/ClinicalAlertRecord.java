@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "clinical_alert_records")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ClinicalAlertRecord {
 
     @Id
@@ -23,6 +24,7 @@ public class ClinicalAlertRecord {
 
     private String severity;
 
+    @Column(length = 2000)
     private String message;
 
     private Boolean resolved = false;

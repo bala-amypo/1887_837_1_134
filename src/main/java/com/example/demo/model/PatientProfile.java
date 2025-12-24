@@ -6,7 +6,9 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Table(name = "patient_profiles")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,9 +18,19 @@ public class PatientProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private String patientId;
+
+    private String fullName;
+
+    private Integer age;
+
+    @Column(unique = true)
+    private String email;
+
     private String surgeryType;
 
-    private Boolean active;
+    private Boolean active = true;
 
     private LocalDateTime createdAt;
 }

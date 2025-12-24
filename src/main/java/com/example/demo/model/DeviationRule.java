@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 @Getter
 @Setter
 @Builder
@@ -10,8 +11,10 @@ import lombok.*;
 public class DeviationRule {
 
     private Long id;
+    private String ruleCode;
     private String parameter;
-    private int threshold;
+
+    private Integer threshold;   // ✅ change
     private String severity;
     private Boolean active;
 }

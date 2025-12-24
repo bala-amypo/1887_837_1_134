@@ -15,5 +15,10 @@ public class DailySymptomLog {
     private Long id;
     private Long patientId;
     private LocalDate logDate;
-    private int painLevel;
+
+    private Integer painLevel;      // ✅ change
+    private Integer mobilityLevel;  // ✅ change
+    private Integer fatigueLevel;   // ✅ change
+
+    private String additionalNotes;
 }

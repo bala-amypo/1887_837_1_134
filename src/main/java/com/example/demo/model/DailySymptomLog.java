@@ -6,10 +6,7 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "daily_symptom_logs",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"patientId", "logDate"}))
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -24,11 +21,8 @@ public class DailySymptomLog {
     private LocalDate logDate;
 
     private Integer painLevel;
-
     private Integer mobilityLevel;
-
     private Integer fatigueLevel;
 
-    @Column(length = 2000)
     private String additionalNotes;
 }

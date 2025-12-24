@@ -1,38 +1,35 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.ClinicalAlertRecord;
+import com.example.demo.model.AppUser;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 @Repository
-public class InMemoryClinicalAlertRecordRepository
-        implements ClinicalAlertRecordRepository {
+public class InMemoryAppUserRepository implements AppUserRepository {
 
-    private final Map<Long, ClinicalAlertRecord> store = new HashMap<>();
+    private final Map<Long, AppUser> store = new HashMap<>();
     private final AtomicLong idGen = new AtomicLong(1);
 
     @Override
-    public ClinicalAlertRecord save(ClinicalAlertRecord alert) {
-        if (alert.getId() == null) {
-            alert.setId(idGen.getAndIncrement());
+    public Optional<AppUser> findByEmail(String email) {
+        return store.values().stream()
+                .filter(u -> u.getEmail().equals(email))
+                .findFirst();
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return findByEmail(email).isPresent();
+    }
+
+    @Override
+    public AppUser save(AppUser user) {
+        if (user.getId() == null) {
+            user.setId(idGen.getAndIncrement());
         }
-        store.put(alert.getId(), alert);
-        return alert;
-    }
-
-    @Override
-    public Optional<ClinicalAlertRecord> findById(Long id) {
-        return Optional.ofNullable(store.get(id));
-    }
-
-    @Override
-    public List<ClinicalAlertRecord> findByPatientId(Long patientId) {
-        return store.values()
-                .stream()
-                .filter(a -> Objects.equals(a.getPatientId(), patientId))
-                .collect(Collectors.toList());
+        store.put(user.getId(), user);
+        return user;
     }
 }

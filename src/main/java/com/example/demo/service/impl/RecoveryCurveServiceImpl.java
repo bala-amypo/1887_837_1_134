@@ -1,31 +1,12 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.model.RecoveryCurveProfile;
-import com.example.demo.repository.RecoveryCurveProfileRepository;
-import com.example.demo.service.RecoveryCurveService;
 
 import java.util.List;
 
-public class RecoveryCurveServiceImpl implements RecoveryCurveService {
+public interface RecoveryCurveService {
 
-    private final RecoveryCurveProfileRepository repository;
+    RecoveryCurveProfile createCurveEntry(RecoveryCurveProfile curve);
 
-    public RecoveryCurveServiceImpl(RecoveryCurveProfileRepository repository) {
-        this.repository = repository;
-    }
-
-    @Override
-    public RecoveryCurveProfile createCurveEntry(RecoveryCurveProfile curve) {
-        return repository.save(curve);
-    }
-
-    @Override
-    public List<RecoveryCurveProfile> getCurveForSurgery(String surgeryType) {
-        return repository.findBySurgeryTypeOrderByDayNumberAsc(surgeryType);
-    }
-
-    @Override
-    public List<RecoveryCurveProfile> getAllCurves() {
-        return repository.findAll();
-    }
+    List<RecoveryCurveProfile> getCurveForSurgery(String surgeryType);
 }

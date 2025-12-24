@@ -7,11 +7,9 @@ import java.util.Optional;
 
 public interface ClinicalAlertService {
 
+    ClinicalAlertRecord createAlert(ClinicalAlertRecord alert);
+
     ClinicalAlertRecord resolveAlert(Long id);
 
     List<ClinicalAlertRecord> getAlertsByPatient(Long patientId);
-
-    Optional<ClinicalAlertRecord> getAlertById(Long id);
-
-    List<ClinicalAlertRecord> getAllAlerts();
 }

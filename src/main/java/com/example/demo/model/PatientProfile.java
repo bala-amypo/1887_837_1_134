@@ -30,6 +30,7 @@ public class PatientProfile {
 
     private String surgeryType;
 
+    @Builder.Default
     private Boolean active = true;
 
     private LocalDateTime createdAt;

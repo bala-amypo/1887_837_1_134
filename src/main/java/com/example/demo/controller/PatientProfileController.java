@@ -5,7 +5,6 @@ import com.example.demo.service.PatientProfileService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/patients")
@@ -23,7 +22,7 @@ public class PatientProfileController {
     }
 
     @GetMapping("/{id}")
-    public PatientProfile getById(@PathVariable Long id) {
+    public PatientProfile get(@PathVariable Long id) {
         return service.getPatientById(id);
     }
 
@@ -32,15 +31,10 @@ public class PatientProfileController {
         return service.getAllPatients();
     }
 
-    @GetMapping("/search/{patientId}")
-    public Optional<PatientProfile> findByPatientId(@PathVariable String patientId) {
-        return service.findByPatientId(patientId);
-    }
-
     @PutMapping("/{id}/status")
     public PatientProfile updateStatus(
             @PathVariable Long id,
-            @RequestParam Boolean active) {
+            @RequestParam boolean active) {
         return service.updatePatientStatus(id, active);
     }
 }

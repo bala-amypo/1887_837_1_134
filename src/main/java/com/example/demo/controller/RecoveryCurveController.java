@@ -21,13 +21,8 @@ public class RecoveryCurveController {
         return service.createCurveEntry(curve);
     }
 
-    @GetMapping("/{surgeryType}")
-    public List<RecoveryCurveProfile> getBySurgery(@PathVariable String surgeryType) {
-        return service.getCurveForSurgery(surgeryType);
-    }
-
-    @GetMapping
-    public List<RecoveryCurveProfile> getAll() {
-        return service.getAllCurves();
+    @GetMapping("/surgery/{type}")
+    public List<RecoveryCurveProfile> getBySurgery(@PathVariable String type) {
+        return service.getCurveForSurgery(type);
     }
 }

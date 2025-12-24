@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI apiInfo() {
+    public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
                         .title("Post-Surgery Recovery Tracker API")
-                        .description("API documentation")
-                        .version("1.0"));
+                        .description("Spring Boot REST API with Swagger")
+                        .version("1.0.0"));
     }
 }

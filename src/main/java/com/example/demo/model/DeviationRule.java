@@ -2,28 +2,16 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-@Entity
-@Table(name = "deviation_rules")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class DeviationRule {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true)
-    private String ruleCode;
-
     private String parameter;
-
-    private Integer threshold;
-
+    private int threshold;
     private String severity;
-
-    private Boolean active = true;
+    private Boolean active;
 }

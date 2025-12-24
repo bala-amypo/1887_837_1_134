@@ -5,33 +5,14 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Table(name = "patient_profiles")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Entity
 public class PatientProfile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true)
-    private String patientId;
-
-    private String fullName;
-
-    private Integer age;
-
-    @Column(unique = true)
-    private String email;
-
-    private String surgeryType;
-
-    @Builder.Default
-    private Boolean active = true;
-
-    private LocalDateTime createdAt;
+    private String name;
+    private Boolean active;
 }

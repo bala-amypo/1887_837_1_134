@@ -12,6 +12,6 @@ public class AppUser {
     private Long id;
     private String email;
     private String password;
-    private UserRole role;
     private String fullName;
+    private UserRole role;
 }

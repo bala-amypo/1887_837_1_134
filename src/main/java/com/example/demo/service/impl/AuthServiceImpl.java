@@ -8,12 +8,11 @@ import com.example.demo.model.UserRole;
 import com.example.demo.repository.AppUserRepository;
 import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.AuthService;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-@Service
 public class AuthServiceImpl implements AuthService {
 
     private final AppUserRepository appUserRepository;
@@ -33,11 +32,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse register(RegisterRequest request) {
-
-        if (appUserRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
-        }
-
         AppUser user = AppUser.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -48,28 +42,28 @@ public class AuthServiceImpl implements AuthService {
         AppUser saved = appUserRepository.save(user);
         String token = jwtTokenProvider.generateToken(saved);
 
-        return new AuthResponse(token, saved.getEmail(), saved.getRole(), saved.getId());
+        return new AuthResponse(token, saved.getEmail(), saved.getRole());
     }
 
     @Override
     public AuthResponse login(AuthRequest request) {
+        AppUser user = appUserRepository.findByEmail(request.getEmail())
+                .orElseThrow(IllegalArgumentException::new);
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(), request.getPassword()
+                        request.getEmail(),
+                        request.getPassword()
                 )
         );
 
-        AppUser user = appUserRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
-
         String token = jwtTokenProvider.generateToken(user);
-        return new AuthResponse(token, user.getEmail(), user.getRole(), user.getId());
+        return new AuthResponse(token, user.getEmail(), user.getRole());
     }
 
     @Override
     public AppUser findByEmail(String email) {
         return appUserRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(IllegalArgumentException::new);
     }
 }

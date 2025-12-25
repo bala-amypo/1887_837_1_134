@@ -9,4 +9,6 @@ public interface RecoveryCurveService {
     RecoveryCurveProfile createCurveEntry(RecoveryCurveProfile curve);
 
     List<RecoveryCurveProfile> getCurveForSurgery(String surgeryType);
+
+    List<RecoveryCurveProfile> getAllCurves();
 }

@@ -12,4 +12,6 @@ public interface ClinicalAlertRecordRepository {
     Optional<ClinicalAlertRecord> findById(Long id);
 
     List<ClinicalAlertRecord> findByPatientId(Long patientId);
+
+    List<ClinicalAlertRecord> findAll();
 }

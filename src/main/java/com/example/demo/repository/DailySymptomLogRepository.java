@@ -10,8 +10,9 @@ public interface DailySymptomLogRepository {
 
     DailySymptomLog save(DailySymptomLog log);
 
-    Optional<DailySymptomLog> findByPatientIdAndLogDate(
-            Long patientId, LocalDate logDate);
+    Optional<DailySymptomLog> findById(Long id);
+
+    Optional<DailySymptomLog> findByPatientIdAndLogDate(Long patientId, LocalDate logDate);
 
     List<DailySymptomLog> findByPatientId(Long patientId);
 }

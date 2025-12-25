@@ -7,7 +7,9 @@ import com.example.demo.service.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service   // ✅ ADD THIS
 public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
     private final DailySymptomLogRepository logRepository;

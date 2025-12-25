@@ -1,9 +1,15 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 
+@Entity
+@Table(
+    name = "daily_symptom_logs",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"patientId", "logDate"})
+)
 @Getter
 @Setter
 @Builder
@@ -11,11 +17,20 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class DailySymptomLog {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long patientId;
+
     private LocalDate logDate;
+
     private Integer painLevel;
+
     private Integer mobilityLevel;
+
     private Integer fatigueLevel;
+
+    @Column(length = 2000)
     private String additionalNotes;
 }
